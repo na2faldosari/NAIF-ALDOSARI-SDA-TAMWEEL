@@ -71,7 +71,7 @@ Optuna completed all 8 trials on 1,935 reserved historical applications. The sea
 | Time- and customer-aware, fixed LightGBM | **0.3153 ± 0.0426** | **0.7976 ± 0.0206** |
 | Time- and customer-aware, tuned LightGBM | 0.3133 ± 0.0259 | 0.7855 ± 0.0232 |
 
-![Day 2 validation comparison showing the effect of leakage and the scores of both LightGBM configurations](reports/day2_validation/day2_validation_comparison.png)
+![Day 2 validation comparison showing the effect of leakage and the scores of both LightGBM configurations](reports/day2_validation_comparison.png)
 
 The random controls show how much the evaluation changed when we removed post-application fields and fit imputation inside training. Mean AP fell from 0.9988 to 0.3110, a gap of 0.6879 calculated before rounding. The clean random and forward protocols cover different applications. Within the same three forward folds, fixed LightGBM scored slightly higher on both means, while tuned LightGBM had less AP variation. The bars show the sample standard deviation across folds.
 
