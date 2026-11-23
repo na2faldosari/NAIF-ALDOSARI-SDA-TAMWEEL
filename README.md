@@ -52,12 +52,14 @@ Of the 2,000 comparison applications, 158 defaulted within the target window (**
 
 | File | What to look for |
 | --- | --- |
-| [Executed project notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_02.ipynb) | Setup, data split, training output and interpretation |
+| [Day 1 notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_01.ipynb) | The executed readiness and baseline comparison |
 | [Model comparison](artifacts/day1_model_comparison.csv) | The three models evaluated on the same 2,000 applications |
 | [Learning curves](artifacts/day1_learning_curves.png) | How validation log loss informed the selected tree counts |
 | [ROC and precision–recall curves](artifacts/day1_roc_pr.png) | How the models trade off detection and false alerts across cutoffs |
 
 ## Day 2 results
+
+[Day 2 validation report](reports/day2_validation/README.md) · [Executed Day 2 notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_02.ipynb)
 
 Day 2 used LightGBM to compare four validation protocols. The feature audit identified two post-application fields, `days_past_due_60` and `collection_calls`. Removing them left 22 approved predictors. The duplicate check found zero duplicates among 10,000 applications. Each of the three forward folds had zero shared customers and only used training labels whose 90-day outcome windows closed before validation began.
 
@@ -79,6 +81,7 @@ Optuna completed 8 of 8 live trials on 1,935 reserved historical applications. I
 | [Optuna trials](artifacts/optuna_results.csv) | Eight live trials and their internal fold scores |
 | [Validation summary](artifacts/validation_summary.csv) | Mean and sample standard deviation for AP and ROC-AUC |
 
+![Day 2 comparison of validation protocols using ROC-AUC and Average Precision](reports/day2_validation/day2_validation_comparison.png)
 
 ## Daily answers | الإجابات اليومية
 
