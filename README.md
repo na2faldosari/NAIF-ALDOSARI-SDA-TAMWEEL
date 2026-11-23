@@ -8,7 +8,7 @@ Tamweel Lite is a project for **Advanced Machine Learning Methods (SDA-DSC-211)*
 
 **Current stage** The Colab readiness checks passed. Day 1 compared three models and selected XGBoost as a provisional candidate. Day 2 compared fixed and tuned LightGBM under time- and customer-aware validation. Day 3 will apply that validation setup to decision costs.
 
-[Open the executed notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_02.ipynb) · [Day 1](#day-1-results) · [Day 2](#day-2-results) · [Read the daily answers](#daily-answers--الإجابات-اليومية)
+[Open the executed notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_02.ipynb) · [Day 1](#day-1-results) · [Day 2](#day-2-results) · [Daily answers](#daily-answers--الإجابات-اليومية) · [Figure sources](reports/FIGURES.md)
 
 ## Project roadmap
 
@@ -41,12 +41,7 @@ Day 1 used 22 approved predictors to rank applications by the risk of `default_w
 
 Of the 2,000 comparison applications, 158 defaulted within the target window (**7.9%**). Average Precision focuses on how well the models retrieve this rare class across score cutoffs. ROC-AUC measures ranking across both classes. Logistic Regression led on ROC-AUC, while XGBoost led on Average Precision by 0.0080 over the baseline. Boosting times include tree selection and refitting.
 
-<details>
-<summary>See the comparison curves</summary>
-
-![ROC and precision–recall curves from the Day 1 comparison set](artifacts/day1_roc_pr.png)
-
-</details>
+![ROC and precision–recall curves comparing the three Day 1 models](artifacts/day1_roc_pr.png)
 
 ### Evidence in this repository
 
@@ -54,14 +49,20 @@ Of the 2,000 comparison applications, 158 defaulted within the target window (**
 | --- | --- |
 | [Day 1 notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_01.ipynb) | The executed readiness and baseline comparison |
 | [Model comparison](artifacts/day1_model_comparison.csv) | The three models evaluated on the same 2,000 applications |
-| [Learning curves](artifacts/day1_learning_curves.png) | How validation log loss informed the selected tree counts |
-| [ROC and precision–recall curves](artifacts/day1_roc_pr.png) | How the models trade off detection and false alerts across cutoffs |
 
 ## Day 2 results
 
-[Day 2 validation report](reports/day2_validation/README.md) · [Executed Day 2 notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_02.ipynb)
+[Executed Day 2 notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_02.ipynb)
 
-Day 2 used LightGBM to compare four validation protocols. The feature audit identified two post-application fields, `days_past_due_60` and `collection_calls`. Removing them left 22 approved predictors. The duplicate check found zero duplicates among 10,000 applications. Each of the three forward folds had zero shared customers and only used training labels whose 90-day outcome windows closed before validation began.
+Day 2 used LightGBM to compare four validation protocols. The feature audit identified two post-application fields, `days_past_due_60` and `collection_calls`. Removing them left 22 approved predictors. The duplicate check found zero duplicates among 10,000 applications. Each forward fold used training labels whose 90-day outcome windows closed before validation began.
+
+| Validation start | Eligible training applications | Validation applications | Shared customers |
+| --- | ---: | ---: | ---: |
+| July 2023 | 3,223 | 1,632 | 0 |
+| January 2024 | 4,460 | 1,674 | 0 |
+| July 2024 | 5,731 | 1,733 | 0 |
+
+Optuna completed all 8 trials on 1,935 reserved historical applications. The search excluded all outer-validation customers. Its best internal mean AP was 0.3333, with a learning rate of 0.0853 (rounded), 31 leaves, and 40 minimum child samples. Those settings were fixed before outer evaluation. Each forward run covered all 5,039 eligible validation applications, or 50.39% of the dataset.
 
 | Validation protocol | Mean AP ± SD | Mean ROC-AUC ± SD |
 | --- | ---: | ---: |
@@ -70,9 +71,9 @@ Day 2 used LightGBM to compare four validation protocols. The feature audit iden
 | Time- and customer-aware, fixed LightGBM | **0.3153 ± 0.0426** | **0.7976 ± 0.0206** |
 | Time- and customer-aware, tuned LightGBM | 0.3133 ± 0.0259 | 0.7855 ± 0.0232 |
 
-The two random rows are diagnostic controls. Their AP gap of 0.6879 reflects the combined change from removing post-application fields and fitting imputation inside training. The clean random and forward protocols cover different applications. The last two rows use the same forward folds, so I compare those directly. Fixed LightGBM scored slightly higher on both means. The tuned run had less AP variation across the three folds.
+![Day 2 validation comparison showing the effect of leakage and the scores of both LightGBM configurations](reports/day2_validation/day2_validation_comparison.png)
 
-Optuna completed 8 of 8 live trials on 1,935 reserved historical applications. Its best internal AP was 0.3333. I froze those settings before evaluating the outer folds. Each honest run generated one out-of-fold prediction for all 5,039 eligible applications, or 50.39% of the complete dataset. The earlier 4,961 applications provide training history. The reported SDs describe fold variation and the evaluation is limited to these synthetic periods and splits.
+The random controls show how much the evaluation changed when we removed post-application fields and fit imputation inside training. Mean AP fell from 0.9988 to 0.3110, a gap of 0.6879 calculated before rounding. The clean random and forward protocols cover different applications. Within the same three forward folds, fixed LightGBM scored slightly higher on both means, while tuned LightGBM had less AP variation. The bars show the sample standard deviation across folds.
 
 | Evidence | What to check |
 | --- | --- |
@@ -80,8 +81,6 @@ Optuna completed 8 of 8 live trials on 1,935 reserved historical applications. I
 | [Fold audit](artifacts/fold_audit.csv) | Three validation windows, zero shared customers and the training label cutoff |
 | [Optuna trials](artifacts/optuna_results.csv) | Eight live trials and their internal fold scores |
 | [Validation summary](artifacts/validation_summary.csv) | Mean and sample standard deviation for AP and ROC-AUC |
-
-![Day 2 comparison of validation protocols using ROC-AUC and Average Precision](reports/day2_validation/day2_validation_comparison.png)
 
 ## Daily answers | الإجابات اليومية
 
