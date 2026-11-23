@@ -41,7 +41,7 @@ Day 1 used 22 approved predictors to rank applications by the risk of `default_w
 
 Of the 2,000 comparison applications, 158 defaulted within the target window (**7.9%**). Average Precision focuses on how well the models retrieve this rare class across score cutoffs. ROC-AUC measures ranking across both classes. Logistic Regression led on ROC-AUC, while XGBoost led on Average Precision by 0.0080 over the baseline. Boosting times include tree selection and refitting.
 
-![ROC and precision–recall curves comparing the three Day 1 models](artifacts/day1_roc_pr.png)
+![ROC and precision–recall curves comparing the three Day 1 models](reports/day1_roc_pr.png)
 
 ### Evidence in this repository
 
