@@ -6,9 +6,9 @@
 
 Tamweel Lite is a project for **Advanced Machine Learning Methods (SDA-DSC-211)** at SDAIA Academy. It uses synthetic financing applications to study how a risk model can support an approve, review, or decline decision. **Trainee code** `211`.
 
-**Current stage** The Colab readiness checks passed. Day 1 compared three models and selected XGBoost as a provisional candidate. Day 2 compared fixed and tuned LightGBM under time- and customer-aware validation. Day 3 used the same validation design to choose a review threshold under a 12% per-period capacity limit. Day 4 will examine explanation and calibration.
+**Current stage** The Colab readiness checks passed. Day 1 compared three models and selected XGBoost as a provisional candidate. Day 2 compared fixed and tuned LightGBM under time- and customer-aware validation. Day 3 used the same validation design to choose a review threshold under a 12% per-period capacity limit. Day 4 explained the weighted model, improved probability calibration and identified a capacity issue for the review queue. Day 5 will compare final candidates.
 
-[Open the executed notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_03.ipynb) · [Day 1](#day-1-results) · [Day 2](#day-2-results) · [Day 3](#day-3-results) · [Daily answers](#daily-answers--الإجابات-اليومية) · [Figure sources](reports/FIGURES.md)
+[Open the executed notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_04.ipynb) · [Day 1](#day-1-results) · [Day 2](#day-2-results) · [Day 3](#day-3-results) · [Day 4](#day-4-results) · [Daily answers](#daily-answers--الإجابات-اليومية) · [Figure sources](reports/FIGURES.md)
 
 ## Project roadmap
 
@@ -18,16 +18,16 @@ Tamweel Lite is a project for **Advanced Machine Learning Methods (SDA-DSC-211)*
 | 01 · Baseline and boosting | Which of the three models is the strongest candidate on the comparison set? | `TECHNICAL_READY` |
 | 02 · Validation and tuning | How do leakage, time and customer separation affect the comparison? | `TECHNICAL_READY` |
 | 03 · Cost-sensitive decisions | How do error costs and review capacity affect the threshold? | `TECHNICAL_READY` |
-| 04 · Explanation and calibration | What drives the predictions, and how well do the probabilities reflect observed risk? | Planned |
+| 04 · Explanation and calibration | What drives the predictions, and how well do the probabilities reflect observed risk? | `TECHNICAL_READY` |
 | 05 · Final model and export | Which model and decision policy should be exported with the documented evidence? | Planned |
 
 ## Readiness and reproduction
 
 The readiness run passed on Colab CPU with **10,000 training applications**. The data checks and six compatibility checks passed. The setup cell at the top of the project notebook prepares the package versions required by the course.
 
-1. Open the [executed notebook in GitHub](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_03.ipynb) to review its saved tables and figures.
+1. Open the [executed notebook in GitHub](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_04.ipynb) to review its saved tables and figures.
 2. Open the [project notebook in Google Colab](https://colab.research.google.com/drive/1gFq8oMK6yUSCPfUD1HMygbfTQD3gmM3J), use a CPU runtime and run from the top with `FAST_MODE=True`. If the setup cell restarts the session, run from the top again.
-3. Check for `TECHNICAL_READY` after the export cell. The course code uses seed `211` and fetches the course files. Compare the [Day 1 model table](artifacts/day1_model_comparison.csv), [Day 2 validation summary](artifacts/validation_summary.csv), and [Day 3 threshold metrics](artifacts/threshold_metrics.json). Training times can vary between sessions.
+3. Check for `TECHNICAL_READY` after the export cell. The course code uses seed `211` and fetches the course files. Compare the [Day 1 model table](artifacts/day1_model_comparison.csv), [Day 2 validation summary](artifacts/validation_summary.csv), [Day 3 threshold metrics](artifacts/threshold_metrics.json), and [Day 4 calibration metrics](artifacts/calibration_metrics.json). Training times can vary between sessions.
 
 ## Day 1 results
 
@@ -108,6 +108,34 @@ The capacity-constrained cutoff incurs 236 more loss units than 0.5 while keepin
 | [Threshold sweep](artifacts/threshold_sweep.csv) | Loss and feasibility for each candidate cutoff |
 | [Region audit](artifacts/day3_region_audit.csv) | False-positive rates for the four synthetic regions |
 
+## Day 4 results
+
+[Executed Day 4 notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_04.ipynb) · [Interpretability report](reports/INTERPRETABILITY_REPORT.md)
+
+Day 4 used separate, customer-disjoint periods for model fit (2,516 applications), sigmoid calibration (584), threshold selection (589), and evaluation (1,733). The calibration and threshold were frozen before evaluation. The weighted LightGBM helps demonstrate explanations and probability calibration ahead of the final model comparison.
+
+`bureau_score` ranked first among 22 features in live SHAP on 300 evaluation applications (mean absolute contribution **0.9042 raw log-odds**). It also caused the largest mean drop in evaluation AP when shuffled (**0.1270**). For the highest-scoring application in the sample, the waterfall's largest positive contributions came from `bureau_score`, `dti` and `loan_amount_sar`.
+
+![Day 4 SHAP beeswarm showing global importance and contributions to the raw model score](reports/day4_shap_beeswarm.png)
+
+| Evaluation metric | Raw | After sigmoid |
+| --- | ---: | ---: |
+| Brier score | 0.11303 | **0.06711** |
+| Expected Calibration Error (ECE) | 0.14687 | **0.02249** |
+| ROC-AUC | 0.77080 | 0.77080 |
+| Average Precision | 0.25868 | 0.25868 |
+
+Probability agreement improved on the evaluation split, and the increasing sigmoid preserved the ranking. The 95% customer-bootstrap interval for the change in Brier was **−0.05418 to −0.03741**, conditional on the fixed model and calibrator in this sample.
+
+The cutoff selected on the policy split maps from **0.58820** raw to **0.17331** calibrated (rounded), preserving the flagged set. The candidate review queue, combining flags and requests in the diagnostic band, exceeded capacity in both evaluation quarters (**109/100** in Q3 and **122/107** in Q4). Q4 also exceeded capacity on risk flags alone (**109/107**). The run reached `TECHNICAL_READY` with `CAPACITY_REVIEW_REQUIRED`. The evaluation records the exceedance with the selected cutoff left in place.
+
+| Evidence | What to check |
+| --- | --- |
+| [Permutation importance](artifacts/permutation_importance.csv) | How much evaluation AP dropped when each feature group was shuffled |
+| [Local SHAP waterfall](reports/day4_shap_waterfall.png) | Why the raw model gave one synthetic application a high score |
+| [Reliability curve](reports/day4_reliability_curve.png) | Predicted probabilities versus observed rates and counts by bin |
+| [Calibration metrics](artifacts/calibration_metrics.json) | Brier, ECE, exact cutoffs and review capacity status |
+
 ## Daily answers | الإجابات اليومية
 
 ### Day 1 | اليوم الأول
@@ -124,8 +152,12 @@ I found that `collection_calls` counted contacts made after the application. I r
 
 I moved the review threshold above 0.5 because the weighted model sent 1,005 of 5,039 applications to review at that cutoff. The busiest period reached 23.20%, well above the 12% ceiling. I chose 0.65835 (rounded) because it gave the lowest simulated loss among the thresholds that met the ceiling in every period. It flagged 526 applications and produced 2,639 loss units, 236 more than 0.5. Missing a default costs ten times as much as a false flag in this exercise, so limiting the queue means accepting more missed defaults. Each flag sends an application to simulated review.
 
+### Day 4 | اليوم الرابع
+
+`bureau_score`, the synthetic credit score available at application time, was the most important feature in my explanation. It had the largest mean absolute SHAP value across 300 evaluation applications (0.9042 raw log-odds). Shuffling it also caused the largest average drop in Average Precision (0.1270). Both results show how much the fitted model relied on the score. They do not show that changing the score would change someone's default risk. Credit score can reflect other correlated factors, and this lab did not test an intervention.
+
 ## Scope and references
 
-The data are synthetic. Day 1 gives an initial ranking comparison, and Day 2 evaluates later applications from customers kept out of each training fold. Day 3 adds simulated review under a cost and capacity policy. Calibration, explanations and final export follow in later labs.
+The data are synthetic. Day 1 gives an initial ranking comparison, and Day 2 evaluates later applications from customers kept out of each training fold. Day 3 adds simulated review under a cost and capacity policy. Day 4 examines feature contributions, probability calibration and capacity on a later evaluation split. The final model comparison and export follow in Day 5.
 
-[Course portal](https://almiyead-rgb.github.io/advanced-machine-learning-methods-sda-dsc-211/) · [Day 1 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY1_GUIDE.md) · [Day 2 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY2_GUIDE.md) · [Day 3 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY3_GUIDE.md) · [SDAIA Academy on GitHub](https://github.com/SDAIAAcademy)
+[Course portal](https://almiyead-rgb.github.io/advanced-machine-learning-methods-sda-dsc-211/) · [Day 1 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY1_GUIDE.md) · [Day 2 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY2_GUIDE.md) · [Day 3 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY3_GUIDE.md) · [Day 4 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY4_GUIDE.md) · [SDAIA Academy on GitHub](https://github.com/SDAIAAcademy)
