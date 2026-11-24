@@ -6,9 +6,9 @@
 
 Tamweel Lite is a project for **Advanced Machine Learning Methods (SDA-DSC-211)** at SDAIA Academy. It uses synthetic financing applications to study how a risk model can support an approve, review, or decline decision. **Trainee code** `211`.
 
-**Current stage** The Colab readiness checks passed. Day 1 compared three models and selected XGBoost as a provisional candidate. Day 2 compared fixed and tuned LightGBM under time- and customer-aware validation. Day 3 used the same validation design to choose a review threshold under a 12% per-period capacity limit. Day 4 explained the weighted model, improved probability calibration and identified a capacity issue for the review queue. Day 5 will compare final candidates.
+**Current stage** The Colab readiness checks passed. Day 1 compared three models and selected XGBoost as a provisional candidate. Day 2 compared fixed and tuned LightGBM under time- and customer-aware validation. Day 3 used the same validation design to choose a review threshold under a 12% per-period capacity limit. Day 4 explained the weighted model, improved probability calibration and identified a capacity issue for the review queue. Day 5 selected Logistic Regression and exported a reproducible model, review policy and challenge submission.
 
-[Open the executed notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_04.ipynb) · [Day 1](#day-1-results) · [Day 2](#day-2-results) · [Day 3](#day-3-results) · [Day 4](#day-4-results) · [Daily answers](#daily-answers--الإجابات-اليومية) · [Figure sources](reports/FIGURES.md)
+[Open the executed project notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_05.ipynb) · [Day 1](#day-1-results) · [Day 2](#day-2-results) · [Day 3](#day-3-results) · [Day 4](#day-4-results) · [Day 5](#day-5-results) · [Daily answers](#daily-answers--الإجابات-اليومية) · [Figure sources](reports/FIGURES.md)
 
 ## Project roadmap
 
@@ -19,15 +19,15 @@ Tamweel Lite is a project for **Advanced Machine Learning Methods (SDA-DSC-211)*
 | 02 · Validation and tuning | How do leakage, time and customer separation affect the comparison? | `TECHNICAL_READY` |
 | 03 · Cost-sensitive decisions | How do error costs and review capacity affect the threshold? | `TECHNICAL_READY` |
 | 04 · Explanation and calibration | What drives the predictions, and how well do the probabilities reflect observed risk? | `TECHNICAL_READY` |
-| 05 · Final model and export | Which model and decision policy should be exported with the documented evidence? | Planned |
+| 05 · Final model and export | Which model and decision policy should be exported with the documented evidence? | `TECHNICAL_READY · KEEP SINGLE` |
 
 ## Readiness and reproduction
 
 The readiness run passed on Colab CPU with **10,000 training applications**. The data checks and six compatibility checks passed. The setup cell at the top of the project notebook prepares the package versions required by the course.
 
-1. Open the [executed notebook in GitHub](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_04.ipynb) to review its saved tables and figures.
+1. Open the [executed notebook in GitHub](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_05.ipynb) to review its saved tables and figures.
 2. Open the [project notebook in Google Colab](https://colab.research.google.com/drive/1gFq8oMK6yUSCPfUD1HMygbfTQD3gmM3J), use a CPU runtime and run from the top with `FAST_MODE=True`. If the setup cell restarts the session, run from the top again.
-3. Check for `TECHNICAL_READY` after the export cell. The course code uses seed `211` and fetches the course files. Compare the [Day 1 model table](artifacts/day1_model_comparison.csv), [Day 2 validation summary](artifacts/validation_summary.csv), [Day 3 threshold metrics](artifacts/threshold_metrics.json), and [Day 4 calibration metrics](artifacts/calibration_metrics.json). Training times can vary between sessions.
+3. Check for `TECHNICAL_READY` after the export cell. The course code uses seed `211` and fetches the course files. Compare the [Day 1 model table](artifacts/day1_model_comparison.csv), [Day 2 validation summary](artifacts/validation_summary.csv), [Day 3 threshold metrics](artifacts/threshold_metrics.json), [Day 4 calibration metrics](artifacts/calibration_metrics.json), and [Day 5 final metrics](artifacts/final_metrics.json). Training times can vary between sessions.
 
 ## Day 1 results
 
@@ -136,6 +136,37 @@ The cutoff selected on the policy split maps from **0.58820** raw to **0.17331**
 | [Reliability curve](reports/day4_reliability_curve.png) | Predicted probabilities versus observed rates and counts by bin |
 | [Calibration metrics](artifacts/calibration_metrics.json) | Brier, ECE, exact cutoffs and review capacity status |
 
+## Day 5 results
+
+[Executed Day 5 lab](notebooks/05_final_model.ipynb) · [Model card](reports/MODEL_CARD.md) · [Ensemble decision](reports/ENSEMBLE_DECISION.md) · [Project bundle](submission/project_bundle.zip)
+
+The final lab compared three individual models and three ensembles on **2,155 out-of-fold (OOF) predictions** across three forward periods. Each validation period followed its training data, with a 90-day label-maturity gap and customer separation. The Day 4 weighted LightGBM remains the model explained in that lab. Day 5 compared all six candidates under its own validation design and selected **Logistic Regression** with `KEEP SINGLE`.
+
+| Candidate | Mean AP | Fold SD | Mean Brier | Mean ECE |
+| --- | ---: | ---: | ---: | ---: |
+| LightGBM | 0.34549 | 0.04348 | 0.06608 | 0.02311 |
+| XGBoost | 0.34714 | 0.03817 | 0.06577 | 0.02309 |
+| **Logistic Regression** | **0.39166** | **0.02981** | **0.06327** | **0.01882** |
+| Equal blend | 0.36780 | 0.03751 | 0.06436 | 0.02097 |
+| Weighted blend | 0.38765 | 0.03060 | 0.06347 | 0.01913 |
+| Stack | 0.38279 | 0.03423 | 0.06606 | 0.03119 |
+
+![Day 5 comparison of mean Average Precision, fold standard deviation, Brier score and calibration error across all six candidates](reports/day5_ensemble_comparison.png)
+
+AP measures how well a model ranks default cases. Brier and ECE summarize probability agreement, with lower values preferred. The Worth-It Gate required an AP lift greater than **0.02981**, with Brier worsening by at most **0.005** and ECE by at most **0.010**. The weighted blend had the highest AP among ensembles and was **0.00401 below** Logistic Regression. Fold SD describes variation across the three folds.
+
+The raw threshold **0.16892** produced **1,111 OOF loss units** (`10 × 95 FN + 161 FP`) and flagged **245 of 2,155** labeled OOF rows. All three OOF periods were within the 12% review ceiling. The sigmoid mapped the cutoff to **0.12226**. On its own 836-row fit set, Brier moved from **0.07647 to 0.07806** and ECE from **0.02112 to 0.03487**. Those figures are fit diagnostics.
+
+The exported model scored all **2,500** challenge applications. The threshold made 330 eligible for review. The batch cap retained 300, exactly **12%**. Replay reproduced every decision and matched submitted probabilities within `1e-12`. The challenge set has no labels for evaluating AP or error costs.
+
+| Evidence | What it records |
+| --- | --- |
+| [Ensemble comparison](artifacts/ensemble_comparison.csv) | Ranking and calibration metrics used by the gate |
+| [Final metrics](artifacts/final_metrics.json) · [Frozen policy](artifacts/final_policy.json) | OOF loss and regional diagnostics, calibration and the challenge cap |
+| [Model export](artifacts/final_model/model.json) · [Submission CSV](submission/submission.csv) | Frozen model and one score and simulated review flag per challenge application |
+
+To replay the submission locally, install the pinned dependencies with `python -m pip install -r requirements-colab.txt -c constraints.txt`, then run `python scripts/replay_final.py` from the project root. It compares the saved scores and review flags with predictions from the exported model and policy.
+
 ## Daily answers | الإجابات اليومية
 
 ### Day 1 | اليوم الأول
@@ -156,8 +187,12 @@ I moved the review threshold above 0.5 because the weighted model sent 1,005 of 
 
 `bureau_score`, the synthetic credit score available at application time, was the most important feature in my explanation. It had the largest mean absolute SHAP value across 300 evaluation applications (0.9042 raw log-odds). Shuffling it also caused the largest average drop in Average Precision (0.1270). Both results show how much the fitted model relied on the score. They do not show that changing the score would change someone's default risk. Credit score can reflect other correlated factors, and this lab did not test an intervention.
 
+### Day 5 | اليوم الخامس
+
+I kept Logistic Regression because it had the highest mean Average Precision across the three forward folds (0.3917) and the lowest mean Brier score (0.0633) and ECE (0.0188). The strongest ensemble was the weighted blend at 0.3877 AP, 0.0040 below Logistic Regression. The Worth-It Gate required an AP gain greater than the best single model’s fold standard deviation (0.0298), plus limits on worsening calibration. None of the ensembles improved AP, so there was no measured gain to justify the extra models. These folds supported model selection. The unlabeled challenge batch was used to verify the export and review-cap policy.
+
 ## Scope and references
 
-The data are synthetic. Day 1 gives an initial ranking comparison, and Day 2 evaluates later applications from customers kept out of each training fold. Day 3 adds simulated review under a cost and capacity policy. Day 4 examines feature contributions, probability calibration and capacity on a later evaluation split. The final model comparison and export follow in Day 5.
+The data are synthetic. Day 1 gives an initial ranking comparison, and Day 2 evaluates later applications from customers kept out of each training fold. Day 3 adds simulated review under a cost and capacity policy. Day 4 examines feature contributions, probability calibration and capacity on a later evaluation split. Day 5 compares individual and ensemble candidates, freezes the review policy and verifies the model export by replaying scores and flags.
 
-[Course portal](https://almiyead-rgb.github.io/advanced-machine-learning-methods-sda-dsc-211/) · [Day 1 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY1_GUIDE.md) · [Day 2 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY2_GUIDE.md) · [Day 3 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY3_GUIDE.md) · [Day 4 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY4_GUIDE.md) · [SDAIA Academy on GitHub](https://github.com/SDAIAAcademy)
+[Course portal](https://almiyead-rgb.github.io/advanced-machine-learning-methods-sda-dsc-211/) · [Day 1 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY1_GUIDE.md) · [Day 2 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY2_GUIDE.md) · [Day 3 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY3_GUIDE.md) · [Day 4 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY4_GUIDE.md) · [Day 5 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY5_GUIDE.md) · [SDAIA Academy on GitHub](https://github.com/SDAIAAcademy)
