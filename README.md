@@ -4,7 +4,7 @@
 
 **Can information available at application time help rank financing requests by 90-day default risk?**
 
-Tamweel Lite is a project for **Advanced Machine Learning Methods (SDA-DSC-211)** at SDAIA Academy. It uses synthetic financing applications to study how a risk model can support an approve, review, or decline decision. **Trainee code** `211`.
+Tamweel Lite is a project for **Advanced Machine Learning Methods (SDA-DSC-211)** at SDAIA Academy. It uses synthetic financing applications to rank 90-day default risk and flag requests for human review within a fixed capacity. **Trainee code** `211`.
 
 **Current stage** The Colab readiness checks passed. Day 1 compared three models and selected XGBoost as a provisional candidate. Day 2 compared fixed and tuned LightGBM under time- and customer-aware validation. Day 3 used the same validation design to choose a review threshold under a 12% per-period capacity limit. Day 4 explained the weighted model, improved probability calibration and identified a capacity issue for the review queue. Day 5 selected Logistic Regression and exported a reproducible model, review policy and challenge submission.
 
@@ -191,8 +191,24 @@ I moved the review threshold above 0.5 because the weighted model sent 1,005 of 
 
 I kept Logistic Regression because it had the highest mean Average Precision across the three forward folds (0.3917) and the lowest mean Brier score (0.0633) and ECE (0.0188). The strongest ensemble was the weighted blend at 0.3877 AP, 0.0040 below Logistic Regression. The Worth-It Gate required an AP gain greater than the best single model’s fold standard deviation (0.0298), plus limits on worsening calibration. None of the ensembles improved AP, so there was no measured gain to justify the extra models. These folds supported model selection. The unlabeled challenge batch was used to verify the export and review-cap policy.
 
+## Final submission evidence
+
+The [cumulative notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_05.ipynb) brings together the five days. The daily snapshots retain the results that support each answer.
+
+| Day | Executed notebook | Main evidence |
+| --- | --- | --- |
+| 1 · Baseline and boosting | [Day 1](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_01.ipynb) | [Model comparison](artifacts/day1_model_comparison.csv) |
+| 2 · Validation and tuning | [Day 2](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_02.ipynb) | [Validation report](artifacts/validation_report.csv) · [OOF coverage](artifacts/day2_oof_coverage.csv) |
+| 3 · Cost and capacity | [Day 3](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_03.ipynb) | [Decision Card](reports/DECISION_CARD.md) · [Period capacity](artifacts/day3_period_capacity.csv) |
+| 4 · Explanation and calibration | [Day 4](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_04.ipynb) | [Interpretability Report](reports/INTERPRETABILITY_REPORT.md) · [Global SHAP values](artifacts/day4_shap_global.csv) |
+| 5 · Model and delivery | [Day 5 lab](notebooks/05_final_model.ipynb) | [Ensemble Decision](reports/ENSEMBLE_DECISION.md) · [Model Card](reports/MODEL_CARD.md) · [Challenge submission](submission/submission.csv) |
+
+[Final presentation](presentation/final_presentation.pdf) · [Inference entry point](tamweel/inference.py) · [Project bundle](submission/project_bundle.zip) · [Official Notebook 99](notebooks/99_final_submission_check.ipynb)
+
 ## Scope and references
 
 The data are synthetic. Day 1 gives an initial ranking comparison, and Day 2 evaluates later applications from customers kept out of each training fold. Day 3 adds simulated review under a cost and capacity policy. Day 4 examines feature contributions, probability calibration and capacity on a later evaluation split. Day 5 compares individual and ensemble candidates, freezes the review policy and verifies the model export by replaying scores and flags.
 
 [Course portal](https://almiyead-rgb.github.io/advanced-machine-learning-methods-sda-dsc-211/) · [Day 1 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY1_GUIDE.md) · [Day 2 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY2_GUIDE.md) · [Day 3 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY3_GUIDE.md) · [Day 4 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY4_GUIDE.md) · [Day 5 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY5_GUIDE.md) · [SDAIA Academy on GitHub](https://github.com/SDAIAAcademy)
+
+Course materials and lab code are by Meaad Al-Marri. [Course template and notice](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/NOTICE.md).
