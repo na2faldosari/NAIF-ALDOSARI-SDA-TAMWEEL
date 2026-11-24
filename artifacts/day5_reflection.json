@@ -1,0 +1,19 @@
+{
+  "responses": {
+    "ensemble_reason": "Logistic Regression led on mean AP (0.39166), Brier (0.06327) and ECE (0.01882). The best ensemble reached 0.38765 AP, below the single model and far from the required AP gain above 0.02981. The ensemble adds complexity without a measured gain.",
+    "validation_limits": "Three nested forward validations gave 2,155 outer OOF scores with customer separation and matured training labels. These folds supported model and threshold selection. The challenge set has no default labels for an independent metric.",
+    "calibration_limits": "The 836 sigmoid-fit rows were kept out of final model fitting. Brier moved from 0.07647 to 0.07806 and ECE from 0.02112 to 0.03487 on those same fit rows. Later labeled applications would be needed to assess the calibrator independently.",
+    "capacity_fairness": "Of 2,500 challenge rows, 330 crossed the chosen threshold and 300 fit the batch cap. OOF regional FPR ranged from 6.31% (32/507 in eastern) to 10.29% (50/486 in western). That is a descriptive gap; challenge outcomes are unavailable.",
+    "explanation_scope": "Day 4 SHAP and permutation explained the weighted LightGBM. The final Logistic Regression has different learned relationships. Recheck final model coefficients on the processed feature scale and validate feature reliance on later labeled rows.",
+    "intended_use": "Study synthetic 90-day default risk and route applications to a simulated additional review. The flag does not automate a financing approval or refusal, and the project has no validation for real financing use.",
+    "monitoring_plan": "Monitor shifts in feature values and missingness, score distributions and queue utilization by period. After the outcome has matured, check AP, Brier and regional FPR with denominators and uncertainty before reconsidering the policy.",
+    "executive_summary_ar": "اعتمد الاختبار Logistic Regression لأنه سجّل أعلى AP بمتوسط 0.3917 مقابل 0.3877 لأفضل تجميع. علّمت سياسة الدفعة 300 من 2,500 طلب للمراجعة المحاكية ضمن سقف 12%.",
+    "executive_summary_en": "Logistic Regression was retained after leading the three forward folds at 0.3917 mean AP. The replayable policy flagged 300 of 2,500 synthetic challenge applications for simulated review, within the 12% cap."
+  },
+  "checkpoint": {
+    "status": "READY_FOR_REVIEW",
+    "missing": [],
+    "automatic_grade": null,
+    "content_quality": "requires human review"
+  }
+}

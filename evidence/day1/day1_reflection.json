@@ -1,0 +1,18 @@
+{
+  "problem_statement": "Estimate the risk of synthetic default within 90 days using information available when a request arrives. The score supports a simulated manual review queue.",
+  "candidate": "XGBoost",
+  "notes": {
+    "evidence": "XGBoost led on Average Precision at 0.3338 versus 0.3258 for Logistic Regression. Logistic Regression led on ROC-AUC at 0.8213.",
+    "limitation": "The comparison was a single random split of operations, with 1,226 customers appearing on both sides. The AP difference was small and does not establish future performance.",
+    "next_test": "Compare on later applications with customer separation and a 90-day label-maturity gap. Check whether the AP advantage persists across periods."
+  },
+  "exit_answers": [
+    "Only 158 of 2,000 applications defaulted. AP focuses on the precision and recall of that rare class, which is the workload the review team cares about. ROC-AUC also captures how the score ranks classes overall.",
+    "Early stopping chooses a tree count using observed performance. The inner stopping split serves that purpose. Keeping the 2,000 comparison rows out of this choice preserves a separate estimate."
+  ],
+  "checkpoint": {
+    "status": "READY_FOR_REVIEW",
+    "missing": [],
+    "automatic_grade": null
+  }
+}

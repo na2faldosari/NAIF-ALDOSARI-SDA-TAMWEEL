@@ -1,0 +1,14 @@
+{
+  "responses": {
+    "leak_example": "collection_calls counted follow-up contacts after the application. The application-time model could not know that value. days_past_due_60 was excluded for the same timing reason.",
+    "split_reason": "Validate on later applications and hold those customers out of training for that fold. Include earlier rows only after the full 90-day outcome window has closed, so training only uses labels it could have known.",
+    "observed_gap": "The leaky and clean random controls had mean AP 0.9988 and 0.3110, a difference of about 0.688. Within the same three forward folds, fixed LightGBM had 0.3153 AP versus 0.3133 tuned. These three windows and their customers limit generalization.",
+    "imputer_reason": "Training-fold medians avoid using evaluation data to learn replacement values. The inner stopping set selects the number of trees within development, leaving the outer period for evaluation.",
+    "limitations": "Optuna tested eight trials on 1,935 reserved historical rows. The 5,039 OOF predictions cover 50.39% of all applications, and the expanding folds share earlier training history."
+  },
+  "checkpoint": {
+    "status": "READY_FOR_REVIEW",
+    "missing": [],
+    "automatic_grade": null
+  }
+}

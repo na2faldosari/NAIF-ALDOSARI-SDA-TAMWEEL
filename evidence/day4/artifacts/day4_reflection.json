@@ -1,0 +1,15 @@
+{
+  "responses": {
+    "global_local": "Global means aggregate contributions across 300 evaluation applications. bureau_score led both mean absolute SHAP (0.9042) and drop in AP after shuffling (0.1270). In the high-scoring example, the local waterfall attributes that single raw score to the individual features and baseline.",
+    "output_units": "Tree SHAP uses training-path counts as background and reports contributions to the raw, uncalibrated log-odds of the weighted LightGBM. These contributions add to the raw margin with the base value.",
+    "reason_limits": "SHAP and permutation report this fitted model’s reliance on a feature. Correlated predictors can share the signal, so the ranking cannot estimate the effect of changing someone’s score.",
+    "calibration_evidence": "On the separate 1,733-row evaluation period, Brier fell from 0.11303 to 0.06711 and ECE from 0.14687 to 0.02249. AP remained 0.25868 under the increasing sigmoid.",
+    "stability": "The 200 paired customer-level resamples gave a 95% interval from -0.05418 to -0.03741 for the Brier change. The interval conditions on the fitted model and calibrator and omits retraining and future population drift.",
+    "review_capacity": "Combining flags with cases in the diagnostic band raised the queue from 97 to 109 against 100 slots in Q3, and from 109 to 122 against 107 slots in Q4. Both quarters exceeded capacity; Q4 exceeded it on risk flags alone."
+  },
+  "checkpoint": {
+    "status": "READY_FOR_REVIEW",
+    "missing": [],
+    "no_automatic_grade": true
+  }
+}

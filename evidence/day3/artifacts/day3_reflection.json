@@ -1,0 +1,16 @@
+{
+  "source": "LIVE",
+  "responses": {
+    "threshold_reason": "A cutoff of 0.65835 (rounded) gave the lowest simulated loss among cutoffs that stayed within the 12% review limit in every OOF period. The busiest period had 206 flags for 1,733 applications.",
+    "cost_capacity_tradeoff": "The cutoff flagged 526 of 5,039 applications for 2,639 loss units. At 0.5 it flagged 1,005 for 2,403 units, but the busiest period reached 23.20%. With 10 units per missed default and 1 per false flag, fitting the queue cost 236 additional units in this run.",
+    "regional_gap": "The observed FPR ranged from 7.64% in other (93/1,217) to 8.29% in western (96/1,158). The 0.65 percentage point gap is descriptive. Check the denominators and see whether the pattern persists in later periods.",
+    "limitations": "The sweep selected and summarized the cutoff on the same 5,039 OOF development rows. Earlier warm-up rows lack OOF scores, the model scores are uncalibrated, and the 10:1 cost and 12% cap are teaching assumptions.",
+    "why_accuracy_misleads": "Defaults make up 7.62% of the OOF rows. Flagging none would give 92.38% accuracy with zero recall and would miss every default.",
+    "why_oof": "The forward OOF probabilities were calculated for applications unseen by each fitting fold. Training predictions would reward fitting the same rows. The challenge batch has no labels and was reserved for the final scored export."
+  },
+  "checkpoint": {
+    "status": "READY_FOR_REVIEW",
+    "missing": [],
+    "automatic_grade": null
+  }
+}
