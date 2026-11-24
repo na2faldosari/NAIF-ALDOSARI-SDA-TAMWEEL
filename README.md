@@ -6,9 +6,9 @@
 
 Tamweel Lite is a project for **Advanced Machine Learning Methods (SDA-DSC-211)** at SDAIA Academy. It uses synthetic financing applications to study how a risk model can support an approve, review, or decline decision. **Trainee code** `211`.
 
-**Current stage** The Colab readiness checks passed. Day 1 compared three models and selected XGBoost as a provisional candidate. Day 2 compared fixed and tuned LightGBM under time- and customer-aware validation. Day 3 will apply that validation setup to decision costs.
+**Current stage** The Colab readiness checks passed. Day 1 compared three models and selected XGBoost as a provisional candidate. Day 2 compared fixed and tuned LightGBM under time- and customer-aware validation. Day 3 used the same validation design to choose a review threshold under a 12% per-period capacity limit. Day 4 will examine explanation and calibration.
 
-[Open the executed notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_02.ipynb) · [Day 1](#day-1-results) · [Day 2](#day-2-results) · [Daily answers](#daily-answers--الإجابات-اليومية) · [Figure sources](reports/FIGURES.md)
+[Open the executed notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_03.ipynb) · [Day 1](#day-1-results) · [Day 2](#day-2-results) · [Day 3](#day-3-results) · [Daily answers](#daily-answers--الإجابات-اليومية) · [Figure sources](reports/FIGURES.md)
 
 ## Project roadmap
 
@@ -17,7 +17,7 @@ Tamweel Lite is a project for **Advanced Machine Learning Methods (SDA-DSC-211)*
 | 00 · Readiness | Does Colab have the required packages, and do the course data and tools work? | `READY` on CPU |
 | 01 · Baseline and boosting | Which of the three models is the strongest candidate on the comparison set? | `TECHNICAL_READY` |
 | 02 · Validation and tuning | How do leakage, time and customer separation affect the comparison? | `TECHNICAL_READY` |
-| 03 · Cost-sensitive decisions | How do error costs and review capacity affect the threshold? | Planned |
+| 03 · Cost-sensitive decisions | How do error costs and review capacity affect the threshold? | `TECHNICAL_READY` |
 | 04 · Explanation and calibration | What drives the predictions, and how well do the probabilities reflect observed risk? | Planned |
 | 05 · Final model and export | Which model and decision policy should be exported with the documented evidence? | Planned |
 
@@ -25,9 +25,9 @@ Tamweel Lite is a project for **Advanced Machine Learning Methods (SDA-DSC-211)*
 
 The readiness run passed on Colab CPU with **10,000 training applications**. The data checks and six compatibility checks passed. The setup cell at the top of the project notebook prepares the package versions required by the course.
 
-1. Open the [executed notebook in GitHub](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_02.ipynb) to review its saved tables and figures.
+1. Open the [executed notebook in GitHub](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_03.ipynb) to review its saved tables and figures.
 2. Open the [project notebook in Google Colab](https://colab.research.google.com/drive/1gFq8oMK6yUSCPfUD1HMygbfTQD3gmM3J), use a CPU runtime and run from the top with `FAST_MODE=True`. If the setup cell restarts the session, run from the top again.
-3. Check for `TECHNICAL_READY` after the export cell. The course code uses seed `211` and fetches the course files. Compare the [Day 1 model table](artifacts/day1_model_comparison.csv) and [Day 2 validation summary](artifacts/validation_summary.csv). Training times can vary between sessions.
+3. Check for `TECHNICAL_READY` after the export cell. The course code uses seed `211` and fetches the course files. Compare the [Day 1 model table](artifacts/day1_model_comparison.csv), [Day 2 validation summary](artifacts/validation_summary.csv), and [Day 3 threshold metrics](artifacts/threshold_metrics.json). Training times can vary between sessions.
 
 ## Day 1 results
 
@@ -82,6 +82,32 @@ The random controls show how much the evaluation changed when we removed post-ap
 | [Optuna trials](artifacts/optuna_results.csv) | Eight live trials and their internal fold scores |
 | [Validation summary](artifacts/validation_summary.csv) | Mean and sample standard deviation for AP and ROC-AUC |
 
+## Day 3 results
+
+[Executed Day 3 notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_03.ipynb) · [Decision card](reports/DECISION_CARD.md)
+
+Day 3 used the forward, customer-separated validation design from Day 2. The unweighted, weighted and oversampled LightGBM variants each predicted the same 5,039 eligible applications out of fold. Defaults accounted for 7.62% of those applications. Screening nobody would reach 92.38% accuracy with zero recall. Pooled Average Precision was 0.3091, 0.3100 and 0.3159, respectively. The weighted variant was specified in advance for the threshold exercise.
+
+The exercise assigns ten loss units to a missed default and one to a false flag (`10 × FN + FP`). The review ceiling is 12% **in each period**. A flagged application goes to simulated review.
+
+| Rule | Threshold (rounded) | Reviews out of 5,039 | Recall | Precision | Loss units | Meets all period limits |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| Default | 0.50000 | 1,005 | 57.81% | 22.09% | 2,403 | No |
+| Lowest loss before applying capacity | 0.44864 | 1,141 | 64.06% | 21.56% | 2,275 | No |
+| Lowest loss within capacity | **0.65835** | **526** | 40.89% | 29.85% | 2,639 | **Yes** |
+
+![Day 3 loss and review load across thresholds, with the feasible cutoff marked](reports/day3_cost_curve.png)
+
+The chart normalizes loss per 10,000 applications. The table reports totals on the 5,039 OOF applications.
+
+The capacity-constrained cutoff incurs 236 more loss units than 0.5 while keeping each period within its review limit. The busiest period flags 206 of 1,733 applications (**11.89%**), one below its cap of 207. Under the shared cutoff, the largest difference in regional false-positive rates is 0.65 percentage points. The regional comparison is descriptive. The threshold was selected and evaluated on the same OOF development scores.
+
+| Evidence | What to check |
+| --- | --- |
+| [Threshold metrics](artifacts/threshold_metrics.json) | Exact cutoff, confusion counts and the three operating points |
+| [Threshold sweep](artifacts/threshold_sweep.csv) | Loss and feasibility for each candidate cutoff |
+| [Region audit](artifacts/day3_region_audit.csv) | False-positive rates for the four synthetic regions |
+
 ## Daily answers | الإجابات اليومية
 
 ### Day 1 | اليوم الأول
@@ -94,8 +120,12 @@ I picked XGBoost for now. Only 7.9% of the requests in the comparison set defaul
 
 I found that `collection_calls` counted contacts made after the application. I removed it and `days_past_due_60` because neither was known when the applicant applied. The leaky random control scored 0.9988 mean AP, compared with 0.3110 for the clean random control. The clean run also learned its imputation medians inside training. For the later validation windows, I excluded those customers from training and used only earlier applications whose 90-day outcome window had already closed. All three folds had zero shared customers.
 
+### Day 3 | اليوم الثالث
+
+I moved the review threshold above 0.5 because the weighted model sent 1,005 of 5,039 applications to review at that cutoff. The busiest period reached 23.20%, well above the 12% ceiling. I chose 0.65835 (rounded) because it gave the lowest simulated loss among the thresholds that met the ceiling in every period. It flagged 526 applications and produced 2,639 loss units, 236 more than 0.5. Missing a default costs ten times as much as a false flag in this exercise, so limiting the queue means accepting more missed defaults. Each flag sends an application to simulated review.
+
 ## Scope and references
 
-The data are synthetic. Day 1 gives an initial ranking comparison, and Day 2 evaluates later applications from customers kept out of each training fold. The course project addresses thresholds, calibration, explanations and final export in later labs.
+The data are synthetic. Day 1 gives an initial ranking comparison, and Day 2 evaluates later applications from customers kept out of each training fold. Day 3 adds simulated review under a cost and capacity policy. Calibration, explanations and final export follow in later labs.
 
-[Course portal](https://almiyead-rgb.github.io/advanced-machine-learning-methods-sda-dsc-211/) · [Day 1 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY1_GUIDE.md) · [Day 2 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY2_GUIDE.md) · [SDAIA Academy on GitHub](https://github.com/SDAIAAcademy)
+[Course portal](https://almiyead-rgb.github.io/advanced-machine-learning-methods-sda-dsc-211/) · [Day 1 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY1_GUIDE.md) · [Day 2 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY2_GUIDE.md) · [Day 3 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY3_GUIDE.md) · [SDAIA Academy on GitHub](https://github.com/SDAIAAcademy)
