@@ -8,7 +8,7 @@ Tamweel Lite is a project for **Advanced Machine Learning Methods (SDA-DSC-211)*
 
 **Current stage** The Colab readiness checks passed. Day 1 compared three models and selected XGBoost as a provisional candidate. Day 2 compared fixed and tuned LightGBM under time- and customer-aware validation. Day 3 used the same validation design to choose a review threshold under a 12% per-period capacity limit. Day 4 explained the weighted model, improved probability calibration and identified a capacity issue for the review queue. Day 5 selected Logistic Regression and exported a reproducible model, review policy and challenge submission.
 
-[Open the executed project notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_05.ipynb) · [Day 1](#day-1-results) · [Day 2](#day-2-results) · [Day 3](#day-3-results) · [Day 4](#day-4-results) · [Day 5](#day-5-results) · [Daily answers](#daily-answers--الإجابات-اليومية) · [Figure sources](reports/FIGURES.md)
+[Open the executed project notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipynb) · [Day 1](#day-1-results) · [Day 2](#day-2-results) · [Day 3](#day-3-results) · [Day 4](#day-4-results) · [Day 5](#day-5-results) · [Daily answers](#daily-answers--الإجابات-اليومية) · [Figure sources](reports/FIGURES.md)
 
 ## Project roadmap
 
@@ -25,7 +25,7 @@ Tamweel Lite is a project for **Advanced Machine Learning Methods (SDA-DSC-211)*
 
 The readiness run passed on Colab CPU with **10,000 training applications**. The data checks and six compatibility checks passed. The setup cell at the top of the project notebook prepares the package versions required by the course.
 
-1. Open the [executed notebook in GitHub](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_05.ipynb) to review its saved tables and figures.
+1. Open the [executed notebook in GitHub](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipynb) to review its saved tables and figures.
 2. Open the [project notebook in Google Colab](https://colab.research.google.com/drive/1gFq8oMK6yUSCPfUD1HMygbfTQD3gmM3J), use a CPU runtime and run from the top with `FAST_MODE=True`. If the setup cell restarts the session, run from the top again.
 3. Check for `TECHNICAL_READY` after the export cell. The course code uses seed `211` and fetches the course files. Compare the [Day 1 model table](artifacts/day1_model_comparison.csv), [Day 2 validation summary](artifacts/validation_summary.csv), [Day 3 threshold metrics](artifacts/threshold_metrics.json), [Day 4 calibration metrics](artifacts/calibration_metrics.json), and [Day 5 final metrics](artifacts/final_metrics.json). Training times can vary between sessions.
 
@@ -47,12 +47,12 @@ Of the 2,000 comparison applications, 158 defaulted within the target window (**
 
 | File | What to look for |
 | --- | --- |
-| [Day 1 notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_01.ipynb) | The executed readiness and baseline comparison |
+| [Day 1 notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_01.ipynb) | The executed baseline and boosting comparison |
 | [Model comparison](artifacts/day1_model_comparison.csv) | The three models evaluated on the same 2,000 applications |
 
 ## Day 2 results
 
-[Executed Day 2 notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_02.ipynb)
+[Executed Day 2 notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_02.ipynb)
 
 Day 2 used LightGBM to compare four validation protocols. The feature audit identified two post-application fields, `days_past_due_60` and `collection_calls`. Removing them left 22 approved predictors. The duplicate check found zero duplicates among 10,000 applications. Each forward fold used training labels whose 90-day outcome windows closed before validation began.
 
@@ -84,7 +84,7 @@ The random controls show how much the evaluation changed when we removed post-ap
 
 ## Day 3 results
 
-[Executed Day 3 notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_03.ipynb) · [Decision card](reports/DECISION_CARD.md)
+[Executed Day 3 notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_03.ipynb) · [Decision card](reports/DECISION_CARD.md)
 
 Day 3 used the forward, customer-separated validation design from Day 2. The unweighted, weighted and oversampled LightGBM variants each predicted the same 5,039 eligible applications out of fold. Defaults accounted for 7.62% of those applications. Screening nobody would reach 92.38% accuracy with zero recall. Pooled Average Precision was 0.3091, 0.3100 and 0.3159, respectively. The weighted variant was specified in advance for the threshold exercise.
 
@@ -110,7 +110,7 @@ The capacity-constrained cutoff incurs 236 more loss units than 0.5 while keepin
 
 ## Day 4 results
 
-[Executed Day 4 notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_04.ipynb) · [Interpretability report](reports/INTERPRETABILITY_REPORT.md)
+[Executed Day 4 notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_04.ipynb) · [Interpretability report](reports/INTERPRETABILITY_REPORT.md)
 
 Day 4 used separate, customer-disjoint periods for model fit (2,516 applications), sigmoid calibration (584), threshold selection (589), and evaluation (1,733). The calibration and threshold were frozen before evaluation. The weighted LightGBM helps demonstrate explanations and probability calibration ahead of the final model comparison.
 
@@ -138,7 +138,7 @@ The cutoff selected on the policy split maps from **0.58820** raw to **0.17331**
 
 ## Day 5 results
 
-[Executed Day 5 lab](notebooks/05_final_model.ipynb) · [Model card](reports/MODEL_CARD.md) · [Ensemble decision](reports/ENSEMBLE_DECISION.md) · [Project bundle](submission/project_bundle.zip)
+[Executed Day 5 lab](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_05.ipynb) · [Model card](reports/MODEL_CARD.md) · [Ensemble decision](reports/ENSEMBLE_DECISION.md) · [Project bundle](submission/project_bundle.zip)
 
 The final lab compared three individual models and three ensembles on **2,155 out-of-fold (OOF) predictions** across three forward periods. Each validation period followed its training data, with a 90-day label-maturity gap and customer separation. The Day 4 weighted LightGBM remains the model explained in that lab. Day 5 compared all six candidates under its own validation design and selected **Logistic Regression** with `KEEP SINGLE`.
 
@@ -193,15 +193,15 @@ I kept Logistic Regression because it had the highest mean Average Precision acr
 
 ## Final submission evidence
 
-The [cumulative notebook](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_05.ipynb) brings together the five days. The daily snapshots retain the results that support each answer.
+The [cumulative notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipynb) brings together the five days. Each [daily notebook](notebooks/delivery) covers that day’s lab and includes its own notes, outputs and answer. The `00` notebook provides the setup check for a fresh runtime.
 
 | Day | Executed notebook | Main evidence |
 | --- | --- | --- |
-| 1 · Baseline and boosting | [Day 1](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_01.ipynb) | [Model comparison](artifacts/day1_model_comparison.csv) |
-| 2 · Validation and tuning | [Day 2](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_02.ipynb) | [Validation report](artifacts/validation_report.csv) · [OOF coverage](artifacts/day2_oof_coverage.csv) |
-| 3 · Cost and capacity | [Day 3](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_03.ipynb) | [Decision Card](reports/DECISION_CARD.md) · [Period capacity](artifacts/day3_period_capacity.csv) |
-| 4 · Explanation and calibration | [Day 4](notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_04.ipynb) | [Interpretability Report](reports/INTERPRETABILITY_REPORT.md) · [Global SHAP values](artifacts/day4_shap_global.csv) |
-| 5 · Model and delivery | [Day 5 lab](notebooks/05_final_model.ipynb) | [Ensemble Decision](reports/ENSEMBLE_DECISION.md) · [Model Card](reports/MODEL_CARD.md) · [Challenge submission](submission/submission.csv) |
+| 1 · Baseline and boosting | [Day 1](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_01.ipynb) | [Model comparison](artifacts/day1_model_comparison.csv) |
+| 2 · Validation and tuning | [Day 2](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_02.ipynb) | [Validation report](artifacts/validation_report.csv) · [OOF coverage](artifacts/day2_oof_coverage.csv) |
+| 3 · Cost and capacity | [Day 3](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_03.ipynb) | [Decision Card](reports/DECISION_CARD.md) · [Period capacity](artifacts/day3_period_capacity.csv) |
+| 4 · Explanation and calibration | [Day 4](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_04.ipynb) | [Interpretability Report](reports/INTERPRETABILITY_REPORT.md) · [Global SHAP values](artifacts/day4_shap_global.csv) |
+| 5 · Model and delivery | [Day 5](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_05.ipynb) | [Ensemble Decision](reports/ENSEMBLE_DECISION.md) · [Model Card](reports/MODEL_CARD.md) · [Challenge submission](submission/submission.csv) |
 
 [Final presentation](presentation/final_presentation.pdf) · [Inference entry point](tamweel/inference.py) · [Project bundle](submission/project_bundle.zip) · [Official Notebook 99](notebooks/99_final_submission_check.ipynb)
 

@@ -4,7 +4,7 @@
 
 ## Model and evaluation roles
 
-The model uses application-time inputs to score synthetic 90-day default. The split keeps customers separate and waits for each earlier role's labels to mature before the next role starts. It assigns 2,516 rows to fit, 584 to calibration (40 defaults), 589 to policy, and 1,733 to evaluation (139 defaults). Sigmoid calibration was fitted on the frozen model's scores from the calibration period. The evaluation data previously appeared in earlier labs and serves as a later-period check for this exercise. [Executed notebook](../notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_04.ipynb)
+The model uses application-time inputs to score synthetic 90-day default. The split keeps customers separate and waits for each earlier role's labels to mature before the next role starts. It assigns 2,516 rows to fit, 584 to calibration (40 defaults), 589 to policy, and 1,733 to evaluation (139 defaults). Sigmoid calibration was fitted on the frozen model's scores from the calibration period. The evaluation data previously appeared in earlier labs and serves as a later-period check for this exercise. [Executed notebook](../notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_04.ipynb)
 
 ## Global dependence and one local explanation
 
@@ -24,7 +24,7 @@ These contributions sum with the base value and the other features on the raw lo
 
 On the same 1,733 evaluation applications, Brier fell from **0.11303** to **0.06711**, ECE from **0.14687** to **0.02249**, and log loss from **0.35799** to **0.24675**. ROC-AUC stayed at **0.77080** and AP at **0.25868**. The sigmoid was strictly increasing, so it changed the probability scale while preserving the ranking. The reliability plot shows ten bins and their counts, including sparse regions of the scale. [Reliability curve](day4_reliability_curve.png) · [Calibration metrics](../artifacts/calibration_metrics.json)
 
-The 200 paired customer-cluster resamples produced a 95% interval of **0.19744 to 0.33785** for AP and **−0.05418 to −0.03741** for the change in Brier. These intervals condition on the fixed model, fixed calibrator and observed evaluation period. They do not measure uncertainty from model training, calibration fitting or future drift. [Bootstrap output in the notebook](../notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_04.ipynb)
+The 200 paired customer-cluster resamples produced a 95% interval of **0.19744 to 0.33785** for AP and **−0.05418 to −0.03741** for the change in Brier. These intervals condition on the fixed model, fixed calibrator and observed evaluation period. They do not measure uncertainty from model training, calibration fitting or future drift. [Bootstrap output in the notebook](../notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_04.ipynb)
 
 ## Review capacity
 
