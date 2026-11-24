@@ -7,12 +7,12 @@
       "sha256": "dde6382b91b8e13b7f5477e719442357f45c26bfe6a6d7dfeeb410144559aba0"
     },
     "PROJECT_README.md": {
-      "bytes": 1686,
-      "sha256": "db65f5e58afd506a32ec4c7de1e83adb86f71da72cf04ea6ca56492decf8756c"
+      "bytes": 1651,
+      "sha256": "0b9b6c9fb7373971d792834deed325b5d133d590b0fa9d1525ddda9c8798a16c"
     },
     "README.md": {
-      "bytes": 21697,
-      "sha256": "c9e6405350571a89b7a1feeb3a3be484262c59aab121926bcfd01560c910563a"
+      "bytes": 20534,
+      "sha256": "bcbca072707aac0dd04837868a11cb4a09654ad90f17ad68397d842603053ea6"
     },
     "artifacts/best_params.json": {
       "bytes": 34591,
@@ -619,8 +619,8 @@
       "sha256": "c3d715268e41bd1f33f0c995fa962d8e07a73b704cec3287ed78f4cc286d400b"
     },
     "notebooks/99_final_submission_check.ipynb": {
-      "bytes": 22499,
-      "sha256": "80d941a5790cd5ac73b06ba0145fb2df99bd5503c38b57de24f36d1b6cd66689"
+      "bytes": 28881,
+      "sha256": "140868d37df6a561f22e5ca79394694a582846240eaf0fedad393cf7c138a614"
     },
     "notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_01.ipynb": {
       "bytes": 343146,
@@ -667,8 +667,8 @@
       "sha256": "8d4ae60ab160c3a00c2f177484df167df5b8ae154bb2b38f2bc4b242e8cd7a07"
     },
     "reports/MODEL_CARD.md": {
-      "bytes": 3656,
-      "sha256": "f3b35f4d50ab4a5278685da0687f0f25815535938f12dba16093ecde880337f3"
+      "bytes": 3710,
+      "sha256": "e5355d7d65470358931610ea76d0a6414b737e571a5bb36fa4d02da954e7defb"
     },
     "reports/day1_learning_curves.png": {
       "bytes": 131119,
@@ -804,7 +804,7 @@
     },
     "submission/submission_manifest.json": {
       "bytes": 31910,
-      "sha256": "1c8787986ee693e9765ac4a71b16d5044e78c9c1fb611382d0d7e834ecc39a3b"
+      "sha256": "6bf48169352e3e5e1f434861398abe700ab177dda4d85b71b93c2efbd096444c"
     },
     "tamweel/__init__.py": {
       "bytes": 50,
@@ -815,7 +815,7 @@
       "sha256": "e633d48befd570ee029a2649c7eadcc4eb3a7d240957cf94fd58130e635dd4e4"
     }
   },
-  "content_sha256": "4946ae3c5d25cb3c8fe5df3f96acc59b7100a9e847d9f8d8336a2f06a5795a03",
+  "content_sha256": "ffcd493ae0b80cec4f15dfe8073e8e75b567586d05967f5b194aaf38016559e1",
   "seed": 211,
   "environment": {
     "python": "3.12.13",

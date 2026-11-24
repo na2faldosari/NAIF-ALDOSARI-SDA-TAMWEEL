@@ -40,7 +40,7 @@ This is a course exercise in ranking, cost and review capacity. Its binary flag 
 
 ## Reproducibility
 
-Install the pinned dependencies and run `python scripts/replay_final.py` from the repository root. The script checks the saved model and frozen policy against the exported challenge file.
+The [final notebook](../notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipynb) records model export and replay. The [replay script](../scripts/replay_final.py) compares the model's scores and review flags with the exported challenge file.
 
 ## Project and course materials
 

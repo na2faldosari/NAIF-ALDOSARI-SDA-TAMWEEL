@@ -6,7 +6,7 @@
 
 Tamweel Lite is a project for **Advanced Machine Learning Methods (SDA-DSC-211)** at SDAIA Academy. It uses synthetic financing applications to rank 90-day default risk and flag requests for human review within a fixed capacity. **Trainee code** `211`.
 
-**Current stage** The Colab readiness checks passed. Day 1 compared three models and selected XGBoost as a provisional candidate. Day 2 compared fixed and tuned LightGBM under time- and customer-aware validation. Day 3 used the same validation design to choose a review threshold under a 12% per-period capacity limit. Day 4 explained the weighted model, improved probability calibration and identified a capacity issue for the review queue. Day 5 selected Logistic Regression and exported a reproducible model, review policy and challenge submission.
+The final model is **Logistic Regression**. Its batch policy flagged **300 of 2,500** challenge requests for simulated review, within the **12%** limit.
 
 [Open the executed project notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipynb) · [Day 1](#day-1-results) · [Day 2](#day-2-results) · [Day 3](#day-3-results) · [Day 4](#day-4-results) · [Day 5](#day-5-results) · [Daily answers](#daily-answers--الإجابات-اليومية) · [Figure sources](reports/FIGURES.md)
 
@@ -165,8 +165,6 @@ The exported model scored all **2,500** challenge applications. The threshold ma
 | [Final metrics](artifacts/final_metrics.json) · [Frozen policy](artifacts/final_policy.json) | OOF loss and regional diagnostics, calibration and the challenge cap |
 | [Model export](artifacts/final_model/model.json) · [Submission CSV](submission/submission.csv) | Frozen model and one score and simulated review flag per challenge application |
 
-To replay the submission locally, install the pinned dependencies with `python -m pip install -r requirements-colab.txt -c constraints.txt`, then run `python scripts/replay_final.py` from the project root. It compares the saved scores and review flags with predictions from the exported model and policy.
-
 ## Daily answers | الإجابات اليومية
 
 ### Day 1 | اليوم الأول
@@ -206,8 +204,6 @@ The [cumulative notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipy
 [Final presentation](presentation/final_presentation.pdf) · [Inference entry point](tamweel/inference.py) · [Project bundle](submission/project_bundle.zip) · [Official Notebook 99](notebooks/99_final_submission_check.ipynb)
 
 ## Scope and references
-
-The data are synthetic. Day 1 gives an initial ranking comparison, and Day 2 evaluates later applications from customers kept out of each training fold. Day 3 adds simulated review under a cost and capacity policy. Day 4 examines feature contributions, probability calibration and capacity on a later evaluation split. Day 5 compares individual and ensemble candidates, freezes the review policy and verifies the model export by replaying scores and flags.
 
 [Course portal](https://almiyead-rgb.github.io/advanced-machine-learning-methods-sda-dsc-211/) · [Day 1 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY1_GUIDE.md) · [Day 2 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY2_GUIDE.md) · [Day 3 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY3_GUIDE.md) · [Day 4 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY4_GUIDE.md) · [Day 5 guide](https://github.com/almiyead-rgb/sda-dsc-211-student-template/blob/main/DAY5_GUIDE.md) · [SDAIA Academy on GitHub](https://github.com/SDAIAAcademy)
 

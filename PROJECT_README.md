@@ -8,11 +8,8 @@ The five labs cover baseline comparison, time- and customer-separated validation
 
 Logistic Regression led three forward validation folds at 0.3917 mean Average Precision. The best ensemble scored 0.3877, so the selection gate retained the single model. The frozen batch policy flagged 300 of 2,500 unlabeled challenge applications for simulated review. The [Model Card](reports/MODEL_CARD.md) describes the data, evaluation, policy and limits. The [Ensemble Decision](reports/ENSEMBLE_DECISION.md) records how the final model was selected.
 
-## Reproduce the exported scores
+## Export verification
 
-```sh
-python -m pip install -r requirements-colab.txt -c constraints.txt
-python scripts/replay_final.py
-```
+The saved model and batch policy reproduced all review flags in [submission.csv](submission/submission.csv) and matched the submitted probabilities within `1e-12`. The replay results are saved in the [final notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipynb).
 
-Run both commands from the repository root. Replay compares the probabilities and review flags produced by the saved model and batch policy with [submission.csv](submission/submission.csv). The [official Notebook 99](notebooks/99_final_submission_check.ipynb) runs the technical checks across the lab notebooks and final files.
+The [official Notebook 99](notebooks/99_final_submission_check.ipynb) checks the saved notebooks, daily answers, and required outputs.
