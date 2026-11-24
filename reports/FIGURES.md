@@ -5,8 +5,9 @@
 | [Day 1 · Baseline and boosting](../README.md#day-1-results) | [ROC and precision–recall curves](day1_roc_pr.png) | [Day 1 notebook](../notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_01.ipynb) · [Model comparison](../artifacts/day1_model_comparison.csv) |
 | [Day 2 · Validation and tuning](../README.md#day-2-results) | [Validation protocol comparison](day2_validation_comparison.png) | [Day 2 validation summary](../artifacts/validation_summary.csv) |
 | [Day 3 · Cost-sensitive decisions](../README.md#day-3-results) | [Threshold cost and review load](day3_cost_curve.png) | [Threshold sweep](../artifacts/threshold_sweep.csv) · [Threshold metrics](../artifacts/threshold_metrics.json) |
+| [Day 4 · Explanation and calibration](../README.md#day-4-results) | [Global SHAP beeswarm](day4_shap_beeswarm.png) | [Day 4 notebook](../notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_04.ipynb) · [Permutation importance](../artifacts/permutation_importance.csv) |
 
-The Day 1 images and Day 3 cost curve match the submission copies in `artifacts/`.
+The Day 1 images, Day 3 cost curve and Day 4 figures match the submission copies in `artifacts/`.
 
 ## Supporting figures
 
@@ -17,3 +18,5 @@ The Day 1 images and Day 3 cost curve match the submission copies in `artifacts/
 | 2 | [Optuna search history](day2_search.png) | [Optuna trials](../artifacts/optuna_results.csv) |
 | 3 | [ROC and precision–recall curves](day3_roc_pr.png) | [Day 3 notebook](../notebooks/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_03.ipynb) |
 | 3 | [Period capacity and regional rates](day3_capacity_regions.png) | [Decision card](DECISION_CARD.md) · [Region audit](../artifacts/day3_region_audit.csv) |
+| 4 | [Local SHAP waterfall](day4_shap_waterfall.png) | [Interpretability report](INTERPRETABILITY_REPORT.md) |
+| 4 | [Probability reliability curve](day4_reliability_curve.png) | [Calibration metrics](../artifacts/calibration_metrics.json) |
