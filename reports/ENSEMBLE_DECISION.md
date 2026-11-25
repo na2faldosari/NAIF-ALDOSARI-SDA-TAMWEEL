@@ -1,4 +1,4 @@
-# Ensemble decision | Day 5
+# Ensemble decision
 
 **KEEP SINGLE — Logistic Regression**
 
@@ -17,4 +17,4 @@ The gate considers Equal, Weighted and Stack in order and retains the simplest e
 
 Raw prediction correlations between the three single models ranged from **0.88 to 0.96**. Residual correlations ranged from **0.98 to 0.99**, which helps explain why combining their scores offered limited benefit in these folds. The gate is a selection rule using descriptive fold variability. Its evidence comes from three related time periods.
 
-[Comparison CSV](../artifacts/ensemble_comparison.csv) · [Gate result](../artifacts/day5_ensemble_gate.json) · [Comparison figure](day5_ensemble_comparison.png) · [Model card](MODEL_CARD.md)
+[Comparison CSV](../artifacts/ensemble_comparison.csv) · [Gate result](../artifacts/day5_ensemble_gate.json) · [Comparison figure](ensemble_comparison.png) · [Model card](MODEL_CARD.md)

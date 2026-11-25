@@ -1,8 +1,8 @@
 # Tamweel Lite project record
 
-Tamweel Lite ranks synthetic applications by 90-day default risk using information available at application time. The exported score and policy refer applications to simulated human review. The [main README](README.md) records each lab, the five daily answers and links to their outputs.
+Tamweel Lite ranks synthetic applications by 90-day default risk using information available at application time. The exported score and policy refer applications to simulated human review. The [main README](README.md) records the modeling workflow, decision notes and supporting evidence.
 
-The five labs cover baseline comparison, time- and customer-separated validation, cost and review capacity, interpretation and calibration, and final model selection. The [evidence exports](evidence) retain the original tables, run metadata and response checkpoints from the executed lab notebooks. The [final notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipynb) brings those stages together.
+The workflow covers baseline comparison, time- and customer-separated validation, cost and review capacity, interpretation and calibration, and final model selection. The [evidence exports](evidence) retain the original tables, run metadata and response records from the executed stage notebooks. The [final notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipynb) brings those stages together.
 
 ## Final model and policy
 
@@ -12,4 +12,4 @@ Logistic Regression led three forward validation folds at 0.3917 mean Average Pr
 
 The saved model and batch policy reproduced all review flags in [submission.csv](submission/submission.csv) and matched the submitted probabilities within `1e-12`. The replay results are saved in the [final notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipynb).
 
-The [official Notebook 99](notebooks/99_final_submission_check.ipynb) checks the saved notebooks, daily answers, and required outputs.
+The [official Notebook 99](notebooks/99_final_submission_check.ipynb) checks the saved notebooks, written decisions and required outputs.

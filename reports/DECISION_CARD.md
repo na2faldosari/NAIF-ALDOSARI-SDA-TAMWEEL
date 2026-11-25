@@ -1,6 +1,6 @@
-# Day 3 decision card | بطاقة القرار
+# Review policy and capacity | بطاقة القرار
 
-**Scope** · Tamweel Lite · 5,039 synthetic out-of-fold applications · Live CPU run · Weighted LightGBM specified for this exercise.
+**Scope** · Tamweel Lite · 5,039 synthetic out-of-fold applications · Live CPU run · Weighted LightGBM specified for threshold selection.
 
 **Review rule** · Send the application to simulated review when score ≥ `0.6583471436014694`. Use the full cutoff to preserve the review list. [Threshold metrics](../artifacts/threshold_metrics.json)
 
@@ -19,6 +19,6 @@
 
 **Regional audit.** The western group has the highest false-positive rate at 8.29% (96/1,158 non-defaults) and `other` the lowest at 7.64% (93/1,217). The 0.65-point gap describes this run. Investigating a difference would require uncertainty estimates and representative data. [Region audit](../artifacts/day3_region_audit.csv)
 
-**Evidence limits.** A rule with no reviews gets 92.38% accuracy and zero recall. Each OOF score comes from a model trained outside that score's validation fold. The folds also separate customers and respect time and label maturity. The eligible rows cover 50.39% of the input. The cutoff and its reported loss use the same development scores. The study uses synthetic requests and educational loss units, with review as the simulated action. Calibration and an independent evaluation are still needed before relying on the rule outside this lab. [Executed notebook](../notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_DAY_03.ipynb)
+**Evidence limits.** A rule with no reviews gets 92.38% accuracy and zero recall. Each OOF score comes from a model trained outside that score's validation fold. The folds also separate customers and respect time and label maturity. The eligible rows cover 50.39% of the input. The cutoff and its reported loss use the same development scores. The study uses synthetic requests and educational loss units, with review as the simulated action. Calibration and an independent evaluation are still needed before applying the rule to real requests. [Executed notebook](../notebooks/03_cost_sensitive_decision.ipynb)
 
-[Project results and daily answer](../README.md#day-3-results)
+[Review-policy results](../README.md#review-policy-and-capacity)

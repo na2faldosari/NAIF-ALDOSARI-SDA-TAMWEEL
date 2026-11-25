@@ -133,21 +133,28 @@ def validate(root, smoke_report=None, template=False):
 
     def daily_answers():
         readme = (root / 'README.md').read_text(encoding='utf-8-sig')
+        section = re.search(
+            r'^##[ \t]+[^\n]*(?:daily answers|الإجابات اليومية)[^\n]*\n'
+            r'(?P<body>.*?)(?=^#{1,2}[ \t]|\Z)',
+            readme,
+            re.IGNORECASE | re.MULTILINE | re.DOTALL,
+        )
         require(
-            'Daily answers' in readme or 'الإجابات اليومية' in readme,
+            section is not None,
             'Add the Daily answers | الإجابات اليومية section to README.',
         )
         for day, labels in DAILY_ANSWER_LABELS.items():
-            matching_label = next((label for label in labels if label in readme), None)
-            require(matching_label is not None, f'Missing Day {day} answer heading.')
-            pattern = re.compile(
-                rf'(?:{re.escape(labels[0])}|{re.escape(labels[1])}).{{0,120}}\n(?P<answer>.+?)(?=\n#{1,4}\s|\Z)',
-                re.IGNORECASE | re.DOTALL,
+            # Notebook 99 accepts numbered decision headings alongside the original labels.
+            label = '|'.join([*map(re.escape, labels), rf'{day}[.)]'])
+            match = re.search(
+                rf'^#{{3,6}}[ \t]+(?:{label})(?=[ \t|:–—-]|$)[^\n]*\n'
+                r'(?P<answer>.*?)(?=^#{1,6}[ \t]|\Z)',
+                section.group('body'),
+                re.IGNORECASE | re.MULTILINE | re.DOTALL,
             )
-            match = pattern.search(readme)
-            require(match is not None, f'Missing Day {day} answer text.')
+            require(match is not None, f'Missing answer heading {day}.')
             answer = re.sub(r'[`#>*_\-]', ' ', match.group('answer')).strip()
-            require(len(answer) >= 15, f'Day {day} answer is too short.')
+            require(len(answer) >= 15, f'Answer {day} is too short.')
     check(
         'daily_answers', 'README.md',
         'أضف إجابة قصيرة واضحة لكل يوم تحت Daily answers | الإجابات اليومية.',

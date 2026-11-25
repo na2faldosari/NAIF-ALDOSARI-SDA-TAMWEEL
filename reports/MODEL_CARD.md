@@ -5,16 +5,16 @@
 | Course | SDAIA Academy · SDA-DSC-211 |
 | Task | Rank synthetic applications by the probability of default within 90 days |
 | Prediction time | At application using the 22 features approved by the course data contract |
-| Selected model | Logistic Regression selected by the Day 5 Worth-It Gate |
+| Selected model | Logistic Regression selected by the ensemble comparison gate |
 | Output | Calibrated default probability and a batch-level simulated review flag |
 
 ## Purpose
 
-The score ranks requests for simulated human review using synthetic data. The exercise evaluates ranking quality, probability calibration and the cost of missed defaults and unnecessary reviews.
+The score ranks requests for simulated human review using synthetic data. The project evaluates ranking quality, probability calibration and the cost of missed defaults and unnecessary reviews.
 
 ## Data
 
-The course dataset contains 10,000 labeled synthetic applications and 2,500 unlabeled challenge applications. Day 5 assigned 6,576 labeled rows to model fitting and selection, 836 to sigmoid fitting, and excluded 2,588 from those two roles.
+The dataset contains 10,000 labeled synthetic applications and 2,500 unlabeled challenge applications. The final evaluation assigned 6,576 labeled rows to model fitting and selection, 836 to sigmoid fitting, and excluded 2,588 from those two roles.
 
 ## Model selection and evaluation
 
@@ -32,11 +32,11 @@ The frozen sigmoid maps the cutoff to **0.1222584314**. The challenge policy ran
 
 ## Explanation scope
 
-The Day 4 SHAP and permutation figures explain the weighted LightGBM from that lab. Inspect the final Logistic Regression coefficients on their processed input scales. A later labeled cohort would support a separate feature-reliance check for the final model.
+The SHAP and permutation figures explain the exploratory weighted LightGBM. Inspect the final Logistic Regression coefficients on their processed input scales. A later labeled cohort would support a separate feature-reliance check for the final model.
 
 ## Intended use and limitations
 
-This is a course exercise in ranking, cost and review capacity. Its binary flag represents simulated routing to a review queue. Use of these scores for real financing decisions would require representative labeled data, independent validation and review of subgroup error rates. With labeled outcomes, reassess drift, Brier, subgroup false-positive rates and queue saturation before reconsidering the model or cutoff.
+This prototype uses synthetic data to study ranking, cost and review capacity. Its binary flag represents simulated routing to a review queue. Use of these scores for real financing decisions would require representative labeled data, independent validation and review of subgroup error rates. With labeled outcomes, reassess drift, Brier, subgroup false-positive rates and queue saturation before reconsidering the model or cutoff.
 
 ## Reproducibility
 
@@ -44,6 +44,6 @@ The [final notebook](../notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipynb
 
 ## Project and course materials
 
-Tamweel Lite is the SDA-DSC-211 project for trainee `211`. The [main README](../README.md) links the course materials, lab notebooks and evidence for each stage.
+The [project README](../README.md) links the notebooks, evidence and source materials.
 
 [Final metrics](../artifacts/final_metrics.json) · [Frozen policy](../artifacts/final_policy.json) · [Ensemble decision](ENSEMBLE_DECISION.md) · [Challenge submission](../submission/submission.csv)
