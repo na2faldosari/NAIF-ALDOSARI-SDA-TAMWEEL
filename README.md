@@ -8,7 +8,7 @@ Tamweel Lite ranks 90-day default risk from synthetic financing applications. Th
 
 The final model is **Logistic Regression**. Its batch policy flagged **300 of 2,500** challenge requests for simulated review, within the **12%** limit.
 
-[Open the executed project notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipynb) · [Baseline model comparison](#baseline-model-comparison) · [Time-aware validation and tuning](#time-aware-validation-and-tuning) · [Review policy and capacity](#review-policy-and-capacity) · [Model interpretation and calibration](#model-interpretation-and-calibration) · [Final model and inference](#final-model-and-inference) · [Decision notes](#project-decisions-daily-answers) · [Figure sources](reports/FIGURES.md)
+[Open the executed project notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipynb) · [Baseline model comparison](#baseline-model-comparison) · [Time-aware validation and tuning](#time-aware-validation-and-tuning) · [Review policy and capacity](#review-policy-and-capacity) · [Model interpretation and calibration](#model-interpretation-and-calibration) · [Final model and inference](#final-model-and-inference) · [Decision notes](#project-decisions) · [Figure sources](reports/FIGURES.md)
 
 ## Project workflow
 
@@ -166,7 +166,7 @@ The exported model scored all **2,500** challenge applications. The threshold ma
 | [Final metrics](artifacts/final_metrics.json) · [Frozen policy](artifacts/final_policy.json) | OOF loss and regional diagnostics, calibration and the challenge cap |
 | [Model export](artifacts/final_model/model.json) · [Submission CSV](submission/submission.csv) | Frozen model and one score and simulated review flag per challenge application |
 
-## Project decisions (daily answers)
+## <span title="الإجابات اليومية">Project decisions</span>
 
 ### 1. Why XGBoost was a provisional choice
 
