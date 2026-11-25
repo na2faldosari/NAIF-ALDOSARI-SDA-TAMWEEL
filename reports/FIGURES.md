@@ -1,6 +1,6 @@
 # Figure sources | مصادر الرسومات
 
-| Project section | Figure shown in the project README | Run evidence |
+| Project section | Figure | Run evidence |
 | --- | --- | --- |
 | [Baseline model comparison](../README.md#baseline-model-comparison) | [ROC and precision–recall curves](baseline_roc_pr.png) | [Executed notebook](../notebooks/01_baseline_boosting.ipynb) · [Model comparison](../artifacts/day1_model_comparison.csv) |
 | [Time-aware validation and tuning](../README.md#time-aware-validation-and-tuning) | [Validation protocol comparison](validation_protocol_comparison.png) | [Validation summary](../artifacts/validation_summary.csv) |
