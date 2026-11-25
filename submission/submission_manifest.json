@@ -14,8 +14,8 @@
       "sha256": "52757664e44772edf0c6078bf643197d2adec3143846330fff790321196472c2"
     },
     "README.md": {
-      "bytes": 20131,
-      "sha256": "e1b9f018ac187a9a82ce7c496ae4a6c336e7032bbd1413264b690dcd572b3a78"
+      "bytes": 19625,
+      "sha256": "39ab04fe6dc6d8680c24b224aac81b077c8aa4fed4af3c18b592d630ce5a0f8c"
     },
     "artifacts/best_params.json": {
       "bytes": 34591,
@@ -618,16 +618,16 @@
       "sha256": "ba47a041cb8c89306d3840f5d3827449dde1263906cf0ef30be34ddaeb2bdd57"
     },
     "notebooks/05_final_model.ipynb": {
-      "bytes": 521874,
-      "sha256": "887f0de8a50544d970e50faa83a4e6fc221e826703ff5dd022910bdae73cedab"
+      "bytes": 521467,
+      "sha256": "7d3e07082856e03e706103995b2da7f9018a2bb73593072f4c4091369e120d9a"
     },
     "notebooks/99_final_submission_check.ipynb": {
       "bytes": 28881,
       "sha256": "140868d37df6a561f22e5ca79394694a582846240eaf0fedad393cf7c138a614"
     },
     "notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipynb": {
-      "bytes": 2161156,
-      "sha256": "b0689b7453dc70b4565b2514bbf0a52b3b7dfd9b60b473380484898332259189"
+      "bytes": 2160749,
+      "sha256": "83e90aba9531be26cde4d68c4efa5abb0c8ef10ab8a582567f5859f07bfb8921"
     },
     "presentation/final_presentation.pdf": {
       "bytes": 656721,

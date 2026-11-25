@@ -8,18 +8,18 @@ Tamweel Lite ranks 90-day default risk from synthetic financing applications. Th
 
 The final model is **Logistic Regression**. Its batch policy flagged **300 of 2,500** challenge requests for simulated review, within the **12%** limit.
 
-[Open the executed project notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipynb) · [Baseline model comparison](#baseline-model-comparison) · [Time-aware validation and tuning](#time-aware-validation-and-tuning) · [Review policy and capacity](#review-policy-and-capacity) · [Model interpretation and calibration](#model-interpretation-and-calibration) · [Final model and inference](#final-model-and-inference) · [Decision notes](#project-decisions) · [Figure sources](reports/FIGURES.md)
+[Open the executed project notebook](notebooks/delivery/NAIF_ALDOSARI_SDA_TAMWEEL_FINAL.ipynb) · [Decision notes](#project-decisions) · [Evidence and notebooks](#reproduce-and-audit) · [Figure sources](reports/FIGURES.md)
 
 ## Project workflow
 
-| Stage | Question | Run result |
-| --- | --- | --- |
-| Setup | Are the pinned dependencies and data ready to run? | `READY` on CPU |
-| Baseline model comparison | Which of the three models is the strongest candidate on the comparison set? | `TECHNICAL_READY` |
-| Time-aware validation and tuning | How do leakage, time and customer separation affect the comparison? | `TECHNICAL_READY` |
-| Review policy and capacity | How do error costs and review capacity affect the threshold? | `TECHNICAL_READY` |
-| Model interpretation and calibration | What drives the predictions, and how well do the probabilities reflect observed risk? | `TECHNICAL_READY` |
-| Final model and inference | Which model and decision policy should be exported with the documented evidence? | `TECHNICAL_READY · KEEP SINGLE` |
+| Stage | Question |
+| --- | --- |
+| [Setup](#readiness-and-reproduction) | Are the pinned dependencies and data ready to run? |
+| [Baseline model comparison](#baseline-model-comparison) | Which of the three models is the strongest candidate on the comparison set? |
+| [Time-aware validation and tuning](#time-aware-validation-and-tuning) | How do leakage, time and customer separation affect the comparison? |
+| [Review policy and capacity](#review-policy-and-capacity) | How do error costs and review capacity affect the threshold? |
+| [Model interpretation and calibration](#model-interpretation-and-calibration) | What drives the predictions, and how well do the probabilities reflect observed risk? |
+| [Final model and inference](#final-model-and-inference) | Which model and decision policy should be exported with the documented evidence? |
 
 ## Readiness and reproduction
 
@@ -170,7 +170,7 @@ The exported model scored all **2,500** challenge applications. The threshold ma
 
 ### 1. Why XGBoost was a provisional choice
 
-I picked XGBoost for now. Only 7.9% of the requests in the comparison set defaulted, so I paid more attention to how well each model ranked those cases. XGBoost had the highest Average Precision at 0.3338, just ahead of Logistic Regression at 0.3258. The gap was small, so I treated the choice as provisional.
+I chose XGBoost as the provisional candidate after the baseline comparison. Only 7.9% of the requests defaulted, so I focused on Average Precision. XGBoost scored 0.3338 and Logistic Regression scored 0.3258, a small gap on that split.
 
 **Why I changed the validation.** The initial split separated application rows, but 1,226 customers appeared in both development and comparison. I used LightGBM as a fixed model to test changes in time ordering and customer separation. The original comparison remains a baseline for that split.
 
@@ -188,7 +188,7 @@ I moved the review threshold above 0.5 because the weighted model sent 1,005 of 
 
 ### 5. Why Logistic Regression was selected
 
-I kept Logistic Regression because it had the highest mean Average Precision across the three forward folds (0.3917) and the lowest mean Brier score (0.0633) and ECE (0.0188). The strongest ensemble was the weighted blend at 0.3877 AP, 0.0040 below Logistic Regression. The Worth-It Gate required an AP gain greater than the best single model’s fold standard deviation (0.0298), plus limits on worsening calibration. None of the ensembles improved AP, so there was no measured gain to justify the extra models. These folds supported model selection. The unlabeled challenge batch was used to verify the export and review-cap policy.
+I kept Logistic Regression after comparing all six candidates on the same three forward folds. The weighted blend came closest at 0.3877 mean Average Precision, below Logistic Regression's 0.3917. Logistic Regression also had the lowest mean Brier score and ECE. The results gave me no reason to add another model to the scoring pipeline. I used the unlabeled challenge batch to replay the exported scores and verify the 12% review cap.
 
 ## Reproduce and audit
 
